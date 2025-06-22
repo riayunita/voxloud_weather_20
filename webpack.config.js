@@ -21,6 +21,11 @@ module.exports = {
         loader: '@ngtools/webpack'
       },
       {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
         test: /\.html$/,
         loader: 'raw-loader'
       },
