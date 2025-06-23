@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { AngularWebpackPlugin } = require('@ngtools/webpack');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'production', // or 'development'
@@ -32,10 +33,15 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ['to-string-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       }
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -49,14 +55,21 @@ module.exports = {
     })
   ],
   devServer: {
+    hot: true,
+  liveReload: true,
     static: {
       directory: path.join(__dirname, 'dist')
     },
     historyApiFallback: {
       index: '/weather/'
     },
-    port: 4200,
+    port: 4900,
     open: true
   },
-  devtool: 'source-map'
+  devtool: 'inline-source-map',
+  watchOptions: {
+    poll: 2000,
+    aggregateTimeout: 300,
+  }
+
 };

@@ -1,5 +1,7 @@
 import 'zone.js';  // This must be imported before Angular bootstrapping
 import '@angular/compiler';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
