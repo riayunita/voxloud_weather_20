@@ -15,9 +15,11 @@ module.exports = function(config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     files: [
+      'src/test-setup.ts',
       'src/**/*.spec.ts'
     ],
     preprocessors: {
+      'src/test-setup.ts': ['webpack', 'sourcemap'],
       'src/**/*.spec.ts': ['webpack', 'sourcemap']
     },
     webpack: require('./webpack.test.config.js'), // your webpack config path

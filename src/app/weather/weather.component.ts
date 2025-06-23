@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
@@ -18,12 +18,15 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [CommonModule,MatTableModule, MatFormFieldModule, MatSortModule, MatPaginatorModule, MatInputModule,FormsModule, MatIconModule, MatButtonModule,MatButtonModule,
-        MatInputModule,
-        MatIconModule,
-        MatSortModule,
-        MatTableModule,
-        MatPaginatorModule],
+  imports: [CommonModule,
+  MatTableModule,
+  MatFormFieldModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatInputModule,
+  FormsModule,
+  MatIconModule,
+  MatButtonModule],
   providers:[ WeatherDataService],
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss']
@@ -34,8 +37,8 @@ export class WeatherComponent implements OnInit {
   exampleDatabase!: WeatherDataService | null;
   dataSourceCurrent!: CurrentWeatherDataSource | null;
   dataSourceForecast!: ForecastWeatherDataSource | null;
-  error!: boolean;
-  success!: boolean;
+  error: boolean = false;
+  success: boolean = false;
   city_name!: string;
   city_list: string[] = [];
   current_date: Date = new Date();
@@ -56,16 +59,14 @@ export class WeatherComponent implements OnInit {
   sortforecast!: MatSort;
     @ViewChild('filterforecast', { static: true })
   filterforecast!: ElementRef;
-    
-  ngOnInit(): void {
-    if(!(localStorage.getItem('city_list') === null)) this.city_list = JSON.parse(localStorage.getItem('city_list') || '{}');
-    this.loaddata();
-  }
-
-  addDays(date: Date, days: number): string {
+     addDays(date: Date, days: number): string {
     let result = new Date(date);
     result.setDate(result.getDate() + days);
     return result.toLocaleDateString();
+  }
+  ngOnInit(): void {
+    if(!(localStorage.getItem('city_list') === null)) this.city_list = JSON.parse(localStorage.getItem('city_list') || '{}');
+    this.loaddata();
   }
   loaddata(){
     this.exampleDatabase = new WeatherDataService(this.httpClient);
@@ -132,9 +133,7 @@ export class CurrentWeatherDataSource extends DataSource<CurrentWeatherShow> {
   filteredData: CurrentWeatherShow[] = [];
   renderedData: CurrentWeatherShow[] = [];
 
-  constructor(public _exampleDatabase: WeatherDataService,
-              public _paginator: MatPaginator,
-              public _sort: MatSort, public list_city: string[]) {
+  constructor(public _exampleDatabase: WeatherDataService,public _paginator: MatPaginator,public _sort: MatSort, public list_city: string[]) {
     super();
     // Reset to the first page when the user changes the filter.
     this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
